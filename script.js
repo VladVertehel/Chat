@@ -33,8 +33,20 @@ onValue(starCountRef, (snapshot) => {
     snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val();
         const key = childSnapshot.key;
-        console.log(data.mess)
-        console.log(data.user)
+        console.log(data.mess);
+        console.log(data.user);
+
+        $("#messArea").empty();
+
+        const p1 = document.createElement("p");
+        const p2 = document.createElement("p");
+        p1.classList.add('p1');
+        p2.classList.add('p2');
+        p1.innerHTML = data.user;
+        p2.innerHTML = data.mess;
+        p1.style.color = 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')'
+        document.getElementById("messArea").appendChild(p1);
+        document.getElementById("messArea").appendChild(p2);
     });
 
 });
@@ -97,13 +109,5 @@ send.click(function () {
         mess: $('#message').val(),
         user: user
     })
-    const p1 = document.createElement("p");
-    const p2 = document.createElement("p");
-    p1.classList.add('p1');
-    p2.classList.add('p2');
-    p1.innerHTML = user;
-    p2.innerHTML = $('#message').val();
-    p1.style.color = 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')'
-    document.getElementById("messArea").appendChild(p1);
-    document.getElementById("messArea").appendChild(p2);
+
 })
