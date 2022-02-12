@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 10px;
+}
+
+#messages {
+    display: none;
+}
+
+.p1 {
+    border-bottom: 1px black solid;
+    border-left: 1px black solid;
+    border-right: 1px black solid;
+    font-weight: bolder;
+    margin-bottom: 5px;
+    padding: 3px;
+}
+
+.p2 {
+    border-top: 1px black solid;
+    border-left: 1px black solid;
+    border-right: 1px black solid;
+    margin-top: 5px;
+    padding: 3px;
+}
+
+#messArea {
+    display: flex;
+    flex-direction: column-reverse;
+}
