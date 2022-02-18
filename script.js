@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-import { getDatabase, set, ref, push, child, onValue } from
+import { getDatabase, set, ref, push, child, onValue, remove } from
     "https://www.gstatic.com/firebasejs/9.6.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -25,8 +25,11 @@ let send = $("#send")
 
 let usersArray = [];
 let passArray = [];
+let messArray = [];
 
 let user;
+
+let messagesCount = 0;
 
 const starCountRef = ref(database, 'messages/');
 onValue(starCountRef, (snapshot) => {
@@ -36,8 +39,8 @@ onValue(starCountRef, (snapshot) => {
     snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val();
         const key = childSnapshot.key;
-        console.log(data.mess);
-        console.log(data.user);
+        // console.log(data.mess);
+        // console.log(data.user);
 
         const p1 = document.createElement("p");
         const p2 = document.createElement("p");
@@ -48,17 +51,33 @@ onValue(starCountRef, (snapshot) => {
         p1.style.color = 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')'
         document.getElementById("messArea").appendChild(p1);
         document.getElementById("messArea").appendChild(p2);
+
+        messagesCount++;
+        // console.log(messagesCount);
+        if (messagesCount < 80) {
+            messArray.push(key)
+        }
+        // setTimeout(() => {
+        if (messagesCount > 80) {
+            remove(ref(database, 'messages/' + messArray[0]));
+            console.log(messagesCount);
+
+            messArray = [];
+            messagesCount = 0;
+        }
+        // }, 1);
     });
 
 });
+
 
 const starCountRef1 = ref(database, 'users/');
 onValue(starCountRef1, (snapshot) => {
     snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val();
         const key = childSnapshot.key;
-        console.log(data.name)
-        console.log(data.pass)
+        // console.log(data.name)
+        // console.log(data.pass)
         usersArray.push(data.name)
         passArray.push(data.pass) // милиця, виправити на асоціативний масив, якщо звятиться сенс
     });
@@ -74,7 +93,7 @@ function ifUserExists() {
             pass: pass.val(),
         })
     } else {
-        if (passArray.includes(pass.val())) {
+        if (passArray.includes(pass.val()) && usersArray.includes(userName.val())) {
             alert("Logged In!")
             user = userName.val();
 
@@ -105,10 +124,19 @@ btn.click(function () {
         .catch(err => console.log(err));
 });
 
-send.click(function () {
+let Send = function () {
     set(ref(database, 'messages/' + push(child(ref(database), 'messages/')).key), {
         mess: $('#message').val(),
         user: user
     })
+}
 
+send.click(function () {
+    Send()
+})
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        Send()
+    }
 })
