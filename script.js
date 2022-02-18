@@ -30,13 +30,14 @@ let user;
 
 const starCountRef = ref(database, 'messages/');
 onValue(starCountRef, (snapshot) => {
+
+    $("#messArea").empty();
+
     snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val();
         const key = childSnapshot.key;
         console.log(data.mess);
         console.log(data.user);
-
-        $("#messArea").empty();
 
         const p1 = document.createElement("p");
         const p2 = document.createElement("p");

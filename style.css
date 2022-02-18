@@ -19,6 +19,7 @@ body {
     font-weight: bolder;
     margin-bottom: 5px;
     padding: 3px;
+    user-select: none;
 }
 
 .p2 {
@@ -26,7 +27,7 @@ body {
     border-left: 1px black solid;
     border-right: 1px black solid;
     margin-top: 5px;
-    padding: 3px;
+    padding: 3px; 
 }
 
 #messArea {
