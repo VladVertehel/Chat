@@ -129,6 +129,8 @@ let Send = function () {
         mess: $('#message').val(),
         user: user
     })
+    document.getElementById("message").value = '';
+    document.getElementById("message").focus();
 }
 
 send.click(function () {
