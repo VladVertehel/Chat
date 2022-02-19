@@ -138,13 +138,17 @@ btn.click(function () {
 });
 
 let Send = function () {
-    set(ref(database, 'messages/' + push(child(ref(database), 'messages/')).key), {
-        mess: $('#message').val(),
-        user: user,
-        color: 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')',
-    })
-    document.getElementById("message").value = '';
-    document.getElementById("message").focus();
+    if (document.getElementById("message").value == '') {
+        return 0
+    } else {
+        set(ref(database, 'messages/' + push(child(ref(database), 'messages/')).key), {
+            mess: $('#message').val(),
+            user: user,
+            color: 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')',
+        })
+        document.getElementById("message").value = '';
+        document.getElementById("message").focus();
+    }
 }
 
 send.click(function () {
