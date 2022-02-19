@@ -44,13 +44,21 @@ onValue(starCountRef, (snapshot) => {
 
         const p1 = document.createElement("p");
         const p2 = document.createElement("p");
+        const deleteBtn = document.createElement("button");
         p1.classList.add('p1');
         p2.classList.add('p2');
+        deleteBtn.classList.add('deleteBtn');
         p1.innerHTML = data.user;
         p2.innerHTML = data.mess;
-        p1.style.color = 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')'
-        document.getElementById("messArea").appendChild(p1);
+        p1.style.color = data.color;
+
         document.getElementById("messArea").appendChild(p2);
+        document.getElementById("messArea").appendChild(p1);
+
+        for (let i of document.querySelectorAll('.p1')) {
+            i.appendChild(deleteBtn);
+        }
+
 
         messagesCount++;
         // console.log(messagesCount);
@@ -66,6 +74,10 @@ onValue(starCountRef, (snapshot) => {
             messagesCount = 0;
         }
         // }, 1);
+
+        deleteBtn.onclick = function () {
+            remove(ref(database, 'messages/' + key));
+        }
     });
 
 });
@@ -91,6 +103,7 @@ function ifUserExists() {
         set(ref(database, 'users/' + userName.val()), {
             name: userName.val(),
             pass: pass.val(),
+
         })
     } else {
         if (passArray.includes(pass.val()) && usersArray.includes(userName.val())) {
@@ -127,7 +140,8 @@ btn.click(function () {
 let Send = function () {
     set(ref(database, 'messages/' + push(child(ref(database), 'messages/')).key), {
         mess: $('#message').val(),
-        user: user
+        user: user,
+        color: 'rgb(' + (Math.random() * 255) + ',' + (Math.random() * 255) + ',' + (Math.random() * 255) + ')',
     })
     document.getElementById("message").value = '';
     document.getElementById("message").focus();
