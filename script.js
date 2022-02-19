@@ -110,7 +110,8 @@ function ifUserExists() {
             alert("Logged In!")
             user = userName.val();
 
-            $('#messages').css('display', 'block')
+            $('#messages').css('display', 'block');
+            document.getElementById("message").focus();
         } else {
             alert("User is already exist!")
         }
